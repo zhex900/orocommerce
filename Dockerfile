@@ -14,9 +14,7 @@ EXPOSE 443 80
 ARG GIT_URI="https://github.com/orocommerce/orocommerce-application.git"
 
 # branch name or tag 
-# master - for master branch
-# tags/1.9.1 - for 1.9.1 tag 
-ARG GIT_REF="tags/1.4.2"
+ARG GIT_REF="1.5"
 
 COPY bin/install-application.sh          /usr/local/bin/install-application.sh
 
@@ -24,4 +22,3 @@ RUN install-application.sh
 
 CMD ["run.sh"]
 
-ENV "SYMFONY_ENV=prod"

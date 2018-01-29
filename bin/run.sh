@@ -7,7 +7,7 @@ function info {
 }
 
 info "Fix ownership for /var/www/ /srv/app-data/"
-chown -R www-data:www-data /var/www/ /srv/app-data/
+chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
 
 # Check if the local usage
 if [[ -z ${IS_LOCAL} ]]; then
@@ -65,35 +65,76 @@ if [[ ! -z ${CMD_INIT_AFTER} ]]; then
     sh -c "${CMD_INIT_AFTER}"
 fi
 
-if [ ! -d /var/www/app/import_export ]
+if [ ! -d ${APP_ROOT}/app/import_export ]
 then
-    mkdir -p /var/www/app/import_export
+    mkdir -p ${APP_ROOT}/app/import_export
 fi
 
-if [ ! -d /var/www/src/CampusCRM ]
-then
-    info "Download orocampus"
-    cd /var/www/
-    git clone https://github.com/zhex900/orocampus.git
-    cp -r orocampus/CampusCRM src/
-fi
 
-# rebuild assets
-# if js are not there
-if [ ! -d /var/www/web/bundles/orosync/js/content-manager.js ]
-then
-    sed -i 's/height:\sauto\;//g' /var/www/vendor/oro/platform/src/Oro/Bundle/UIBundle/Resources/public/css/less/mobile/layout.less
-    php /var/www/app/console oro:platform:update --force
 
+
+sed -i '/services/a \
+\
+    oro_attachment.aws_s3.client:\
+         class: Aws\S3\S3Client\
+         factory: [Aws\S3\S3Client, 'factory']\
+         arguments:\
+            -\
+                version: latest\
+                region: "%aws_region%"\
+                credentials:\
+                   key:      "%aws_key%"\
+                   secret:   "%aws_secret%"'\
+                \
+     /var/www/app/config/config.yml
+
+sed -i '/framework/i \
+\
+knp_gaufrette:\
+    adapters:\
+        attachments:\
+            aws_s3:\
+                service_id: 'oro_attachment.aws_s3.client'\
+                bucket_name: 'ewhale-shop-prod-attachment-cache'\
+                detect_content_type: true\
+                options:\
+                        create: true\
+                        directory: 'attachment'\
+        mediacache:\
+            aws_s3:\
+                service_id: 'oro_attachment.aws_s3.client'\
+                bucket_name: 'ewhale-shop-prod-attachment-cache'\
+                detect_content_type: true\
+                options:\
+                        create: true\
+                        directory: 'mediacache''\
+                \
+     /var/www/app/config/config.yml
+
+sed -i "/parameters/a \
+    aws_region: ${AWS_REGION} \
+    aws_key: ${AWS_KEY}\
+    aws_secret: ${AWS_SECRET}" /var/www/app/config/parameters.yml
+
+if [ ! -d ${APP_ROOT}/src/MENA ]
+then
+     info "Download MENA theme"
+     cd ${APP_ROOT}
+     git clone https://github.com/zhex900/ot-theme.git
+     rm -rf src
+     mv  ot-theme src/
+     php /var/www/app/console oro:platform:update --force
 fi
 
 #clear cache.
 info "Rebuild cache"
-rm -rf /var/www/app/cache/*
-php /var/www/app/console cache:clear --env=prod -vvv
+rm -rf ${APP_ROOT}/app/cache/*
+php ${APP_ROOT}/app/console cache:clear --env=prod -vvv
 info "Fix ownership for /var/www/ /srv/app-data/"
-chown -R www-data:www-data /var/www/ /srv/app-data/
+chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
 
+#clear entity config
+php ${APP_ROOT}/app/console oro:entity-extend:update-config
 
 # add redis config to parameters.yml
 # When docker container is restarted, the redis dns config always get deleted.
