@@ -90,7 +90,9 @@ then
     sed -i '/file/a \
             "keep-outdated": "true"' /var/www/composer.json
 
-     php /var/www/app/console oro:platform:update --force
+    composer require "aws/aws-sdk-php:3.*"
+
+    php /var/www/app/console oro:platform:update --force
 fi
 
 #clear cache.

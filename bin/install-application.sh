@@ -50,5 +50,3 @@ ln -s /usr/share/zoneinfo/Asia/Dubai /etc/localtime
 rm -rf /tmp/*
 rm -rf ~/.ssh
 #rm -rf ~/.composer
-
-composer require "aws/aws-sdk-php:3.*"
