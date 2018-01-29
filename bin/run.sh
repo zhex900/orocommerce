@@ -71,58 +71,25 @@ then
 fi
 
 
-
-
-sed -i '/services/a \
-\
-    oro_attachment.aws_s3.client:\
-         class: Aws\S3\S3Client\
-         factory: [Aws\S3\S3Client, 'factory']\
-         arguments:\
-            -\
-                version: latest\
-                region: "%aws_region%"\
-                credentials:\
-                   key:      "%aws_key%"\
-                   secret:   "%aws_secret%"'\
-                \
-     /var/www/app/config/config.yml
-
-sed -i '/framework/i \
-\
-knp_gaufrette:\
-    adapters:\
-        attachments:\
-            aws_s3:\
-                service_id: 'oro_attachment.aws_s3.client'\
-                bucket_name: 'ewhale-shop-prod-attachment-cache'\
-                detect_content_type: true\
-                options:\
-                        create: true\
-                        directory: 'attachment'\
-        mediacache:\
-            aws_s3:\
-                service_id: 'oro_attachment.aws_s3.client'\
-                bucket_name: 'ewhale-shop-prod-attachment-cache'\
-                detect_content_type: true\
-                options:\
-                        create: true\
-                        directory: 'mediacache''\
-                \
-     /var/www/app/config/config.yml
-
-sed -i "/parameters/a \
-    aws_region: ${AWS_REGION} \
-    aws_key: ${AWS_KEY}\
-    aws_secret: ${AWS_SECRET}" /var/www/app/config/parameters.yml
-
 if [ ! -d ${APP_ROOT}/src/MENA ]
 then
      info "Download MENA theme"
      cd ${APP_ROOT}
-     git clone https://github.com/zhex900/ot-theme.git
+     git clone https://github.com/zhex900/ewhale.git
      rm -rf src
      mv  ot-theme src/
+
+    sed -i "/parameters/a \
+    aws_region: ${AWS_REGION} \
+    aws_key: ${AWS_KEY}\
+    aws_secret: ${AWS_SECRET}" /var/www/app/config/parameters.yml
+
+    sed -i '/imports/a \
+    - { resource: aws_s3.yml }' /var/www/app/config/config.yml
+
+    sed -i '/file/a \
+            "keep-outdated": "true"' /var/www/composer.json
+
      php /var/www/app/console oro:platform:update --force
 fi
 
