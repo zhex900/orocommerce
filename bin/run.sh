@@ -88,7 +88,7 @@ then
     - { resource: aws_s3.yml }' /var/www/app/config/config.yml
 
     sed -i '/file/a \
-            "keep-outdated": "true"' /var/www/composer.json
+            "keep-outdated": "true",' /var/www/composer.json
 
     composer require "aws/aws-sdk-php:3.*"
 
