@@ -77,7 +77,7 @@ then
      cd ${APP_ROOT}
      git clone https://github.com/zhex900/ewhale.git
      rm -rf src
-     mv  ot-theme src/
+     mv  ewhale src/
 
     sed -i "/parameters/a \
     aws_region: ${AWS_REGION} \
