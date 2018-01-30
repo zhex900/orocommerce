@@ -90,6 +90,9 @@ then
     sed -i '/file/a \
             "keep-outdated": "true",' /var/www/composer.json
 
+	composer global require "fxp/composer-asset-plugin:~1.3.1"
+	composer require "aws/aws-sdk-php:3.*"
+
     php /var/www/app/console oro:platform:update --force
 fi
 
