@@ -47,8 +47,8 @@ if [[ -f ${APP_DIR}/composer.json ]]; then
 
     composer install --dev --no-interaction --prefer-dist --optimize-autoloader -d ${APP_DIR} || error "Can't install dependencies"
 
-#	composer global require "fxp/composer-asset-plugin:~1.3.1"
-	composer require "aws/aws-sdk-php:3.*" -vvv
+	composer global require "fxp/composer-asset-plugin:~1.3.1"
+	composer global require "aws/aws-sdk-php:3.*" -vvv
 
 else
     error "${APP_DIR}/composer.json not found!"
