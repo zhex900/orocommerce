@@ -34,9 +34,9 @@ sed -i -e "s/return \$fileLength == 255;/return \$fileLength > 200;/g" ${APP_DIR
 
 # If is composer application
 if [[ -f ${APP_DIR}/composer.json ]]; then
-#
-#    sed -i '/require/a \
-#    "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
+
+    sed -i '/require/a \
+    "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
 
     if [[ ! -f ${APP_DIR}/composer.lock ]]; then
         composer update --no-interaction --lock -d ${APP_DIR} || error "Can't update lock file"
