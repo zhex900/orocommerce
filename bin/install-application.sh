@@ -42,8 +42,8 @@ if [[ -f ${APP_DIR}/composer.json ]]; then
     fi
     cd /var/www
 
-    sed -i '/require/a \
-    "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
+#    sed -i '/require/a \
+#    "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
 
     composer install --dev --no-interaction --prefer-dist --optimize-autoloader -d ${APP_DIR} || error "Can't install dependencies"
 
@@ -60,4 +60,4 @@ ln -s /usr/share/zoneinfo/Asia/Dubai /etc/localtime
 
 rm -rf /tmp/*
 rm -rf ~/.ssh
-#rm -rf ~/.composer
+rm -rf ~/.composer

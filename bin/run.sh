@@ -77,18 +77,21 @@ then
      cd ${APP_ROOT}
      git clone https://github.com/zhex900/ewhale.git
      rm -rf src
-     mv  ewhale src/
+     cp -r ewhale src/
+     cp -r ewhale/.git src/
 
-    sed -i "/parameters/a \
-    aws_region: ${AWS_REGION} \
-    aws_key: ${AWS_KEY}\
-    aws_secret: ${AWS_SECRET}" /var/www/app/config/parameters.yml
+    mv /etc/aws_s3.yml /var/www/app/config/
 
     sed -i '/imports/a \
     - { resource: aws_s3.yml }' /var/www/app/config/config.yml
 
     sed -i '/file/a \
             "keep-outdated": "true",' /var/www/composer.json
+
+    sed -i '/parameters/a \
+    aws_regio: '${AWS_REGION}' \
+    aws_key: '${AWS_KEY}'\
+    aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
 
     php /var/www/app/console oro:platform:update --force
 fi
