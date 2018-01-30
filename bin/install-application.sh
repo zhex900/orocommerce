@@ -40,7 +40,7 @@ if [[ -f ${APP_DIR}/composer.json ]]; then
     if [[ ! -f ${APP_DIR}/composer.lock ]]; then
         composer update --no-interaction --lock -d ${APP_DIR} || error "Can't update lock file"
     fi
-    cd ${APP_DIR}
+    cd /var/www
 
     sed -i '/require/a \
     "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
