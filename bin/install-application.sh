@@ -54,6 +54,25 @@ else
     error "${APP_DIR}/composer.json not found!"
 fi
 
+
+if [ ! -d ${APP_ROOT}/src/MENA ]
+then
+     info "Download MENA theme"
+     cd ${APP_ROOT}
+     git clone https://github.com/zhex900/ewhale.git
+     rm -rf src
+     cp -r ewhale src/
+     cp -r ewhale/.git src/
+
+    mv /etc/aws_s3.yml /var/www/app/config/
+
+    sed -i '/imports/a \
+    - { resource: aws_s3.yml }' /var/www/app/config/config.yml
+
+    sed -i '/file/a \
+            "keep-outdated": "true",' /var/www/composer.json
+fi
+
 # Change timezone to Asia/Dubai
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/Asia/Dubai /etc/localtime
