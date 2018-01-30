@@ -42,7 +42,7 @@ if [[ -f ${APP_DIR}/composer.json ]]; then
         composer update --no-interaction --lock -d ${APP_DIR} || error "Can't update lock file"
     fi
 	composer global require "fxp/composer-asset-plugin:~1.3.1"
-
+    composer require "aws/aws-sdk-php:3.*"
     composer install --dev --no-interaction --prefer-dist --optimize-autoloader -d ${APP_DIR} || error "Can't install dependencies"
 else
     error "${APP_DIR}/composer.json not found!"
