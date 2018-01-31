@@ -74,15 +74,15 @@ fi
 #then
 #    composer require "aws/aws-sdk-php:3.*" -vvv
 #fi
-
-if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
-
-    sed -i '/parameters/a \
-    aws_region: '${AWS_REGION}' \
-    aws_key: '${AWS_KEY}'\
-    aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
-
-fi
+#
+#if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
+#
+#    sed -i '/parameters/a \
+#    aws_region: '${AWS_REGION}' \
+#    aws_key: '${AWS_KEY}'\
+#    aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
+#
+#fi
 
 if [ ! -d /root/.aws ]
 then

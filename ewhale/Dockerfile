@@ -1,6 +1,7 @@
 FROM zhex900/ewhale:base
 
 COPY run.sh /usr/local/bin/
+COPY composer-map-env.php /usr/local/bin/
 
 RUN apt-get update && \
         apt-get install -y python-pip && \
