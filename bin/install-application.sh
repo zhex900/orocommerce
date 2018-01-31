@@ -43,8 +43,8 @@ if [[ -f ${APP_DIR}/composer.json ]]; then
     cd /var/www
 
 
-    sed -i '/require/a \
-    "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
+#    sed -i '/require/a \
+#    "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
     composer install --dev --no-interaction --prefer-dist --optimize-autoloader -d ${APP_DIR} || error "Can't install dependencies"
 
 ##	composer global require "fxp/composer-asset-plugin:~1.3.1" -vvv
@@ -65,9 +65,9 @@ then
      cp -r ewhale/.git src/
 
     mv /etc/aws_s3.yml /var/www/app/config/
-
+#
     sed -i '/imports/a \
-    - { resource: aws_s3.yml }' /var/www/app/config/config.yml
+    #- { resource: aws_s3.yml }' /var/www/app/config/config.yml
 
     sed -i '/file/i \
             "keep-outdated": "true",' /var/www/composer.json
