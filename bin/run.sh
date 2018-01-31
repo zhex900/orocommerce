@@ -69,11 +69,11 @@ if [ ! -d ${APP_ROOT}/app/import_export ]
 then
     mkdir -p ${APP_ROOT}/app/import_export
 fi
-
-if [ ! -d ${APP_ROOT}/vendor/aws ]
-then
-    composer require "aws/aws-sdk-php:3.*" -vvv
-fi
+#
+#if [ ! -d ${APP_ROOT}/vendor/aws ]
+#then
+#    composer require "aws/aws-sdk-php:3.*" -vvv
+#fi
 
 if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
