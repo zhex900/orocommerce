@@ -1,4 +1,4 @@
-FROM zhex900/orocommerce:ewhale_base
+FROM zhex900/ewhale:base
 
 COPY run.sh /usr/local/bin/
 
