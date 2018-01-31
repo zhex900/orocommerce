@@ -2,6 +2,7 @@ FROM zhex900/ewhale:base
 
 COPY run.sh /usr/local/bin/
 COPY composer-map-env.php /usr/local/bin/
+COPY nginx-bap.conf      /etc/nginx/sites-enabled/bap.conf
 
 RUN apt-get update && \
         apt-get install -y python-pip && \

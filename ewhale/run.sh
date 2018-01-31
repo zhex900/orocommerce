@@ -84,6 +84,8 @@ fi
 #
 #fi
 
+sed -i "s/\$host/${APP_HOSTNAME}/g" /etc/nginx/sites-enabled/bap.conf
+
 if [ ! -d /root/.aws ]
 then
     mkdir /root/.aws
