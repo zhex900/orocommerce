@@ -78,7 +78,7 @@ fi
 if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
     sed -i '/parameters/a \
-    aws_regio: '${AWS_REGION}' \
+    aws_region: '${AWS_REGION}' \
     aws_key: '${AWS_KEY}'\
     aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
 
