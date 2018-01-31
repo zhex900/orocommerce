@@ -86,15 +86,15 @@ fi
 
 php /var/www/app/console oro:platform:update --force
 #
-##clear cache.
-info "Rebuild cache"
-rm -rf ${APP_ROOT}/app/cache/*
-php ${APP_ROOT}/app/console cache:clear --env=prod -vvv
-info "Fix ownership for /var/www/ /srv/app-data/"
-chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
-
-#clear entity config
-php ${APP_ROOT}/app/console oro:entity-extend:update-config
+###clear cache.
+#info "Rebuild cache"
+#rm -rf ${APP_ROOT}/app/cache/*
+#php ${APP_ROOT}/app/console cache:clear --env=prod -vvv
+#info "Fix ownership for /var/www/ /srv/app-data/"
+#chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
+#
+##clear entity config
+#php ${APP_ROOT}/app/console oro:entity-extend:update-config
 
 # add redis config to parameters.yml
 # When docker container is restarted, the redis dns config always get deleted.
