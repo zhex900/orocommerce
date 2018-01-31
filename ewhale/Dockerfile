@@ -3,7 +3,7 @@ FROM zhex900/ewhale:base
 COPY run.sh /usr/local/bin/
 
 RUN apt-get update && \
-        apt-get install python-pip && \
+        apt-get install -y python-pip && \
         pip install awscli --upgrade --user && \
         export PATH=~/.local/bin:$PATH && \
         cd /var/www/ && \
