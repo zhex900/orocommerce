@@ -43,10 +43,10 @@ if [[ -f ${APP_DIR}/composer.json ]]; then
     cd /var/www
 
 
-
-    composer install --dev --no-interaction --prefer-dist --optimize-autoloader -d ${APP_DIR} || error "Can't install dependencies"
     sed -i '/require/a \
     "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
+    composer install --dev --no-interaction --prefer-dist --optimize-autoloader -d ${APP_DIR} || error "Can't install dependencies"
+    grep aws composer.json
 ##	composer global require "fxp/composer-asset-plugin:~1.3.1" -vvv
 #    composer require "aws/aws-sdk-php:3.*" -vvv
     composer update --no-dev
