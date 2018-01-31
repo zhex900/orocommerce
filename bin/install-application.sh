@@ -46,10 +46,10 @@ if [[ -f ${APP_DIR}/composer.json ]]; then
     sed -i '/require/a \
     "aws\/aws-sdk-php":"3.*",' /var/www/composer.json
     composer install --dev --no-interaction --prefer-dist --optimize-autoloader -d ${APP_DIR} || error "Can't install dependencies"
-    grep aws composer.json
+
 ##	composer global require "fxp/composer-asset-plugin:~1.3.1" -vvv
 #    composer require "aws/aws-sdk-php:3.*" -vvv
-    composer update --no-dev
+#    composer update --no-dev
 else
     error "${APP_DIR}/composer.json not found!"
 fi
@@ -60,8 +60,8 @@ then
      info "Download MENA theme"
      cd ${APP_ROOT}
      git clone https://github.com/zhex900/ewhale.git
-     rm -rf src
-     cp -r ewhale src/
+
+     cp -r ewhale/MENA src/
      cp -r ewhale/.git src/
 
     mv /etc/aws_s3.yml /var/www/app/config/
