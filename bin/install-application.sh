@@ -69,7 +69,7 @@ then
     sed -i '/imports/a \
     - { resource: aws_s3.yml }' /var/www/app/config/config.yml
 
-    sed -i '/file/a \
+    sed -i '/file/i \
             "keep-outdated": "true",' /var/www/composer.json
 fi
 
