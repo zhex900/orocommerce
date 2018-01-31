@@ -8,7 +8,14 @@ RUN cd /var/www/ && \
     git clone https://github.com/zhex900/ewhale.git && \
     cp -r ewhale/MENA src && \
     cp -r ewhale/.git src
+
+RUN apt-get update && \
+    apt-get install python-pip && \
+    pip install awscli --upgrade --user && \
+    export PATH=~/.local/bin:$PATH
    # app/console oro:platform:update --force && \
    # app/console cache:clear --env=prod -vvv && \
    # chown -R www-data:www-data /var/www /srv/app-data/
 
+# aws s3 cp s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
+# aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive

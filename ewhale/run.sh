@@ -84,6 +84,28 @@ if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
 fi
 
+if [ ! -d /root/.aws ]
+then
+    mkdir /root/.aws
+    cat > /root/.aws/credentials <<DELIM
+[default]
+aws_access_key_id = ${AWS_KEY}
+aws_secret_access_key = ${AWS_SECRET}
+DELIM
+    cat > /root/.aws/config <<DELIM
+[default]
+output = json
+region = ${AWS_REGION}
+DELIM
+fi
+
+# get images from aws s3
+if [ ! -d /var/www/web/media/cache ]
+then
+    aws s3 cp s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
+    aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive
+fi
+
 php /var/www/app/console oro:platform:update --force
 
 ##clear cache.
