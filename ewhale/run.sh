@@ -98,7 +98,7 @@ output = json
 region = ${AWS_REGION}
 DELIM
 fi
-
+export PATH=~/.local/bin:$PATH
 # get images from aws s3
 if [ ! -d /var/www/web/media/cache ]
 then
