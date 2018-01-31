@@ -8,7 +8,7 @@ RUN cd /var/www/ && \
     git clone https://github.com/zhex900/ewhale.git && \
     cp -r ewhale/MENA src && \
     cp -r ewhale/.git src && \
-    app/console oro:platform:update --force && \
-    app/console cache:clear --env=prod -vvv && \
-    chown -R www-data:www-data /var/www /srv/app-data/
+   # app/console oro:platform:update --force && \
+   # app/console cache:clear --env=prod -vvv && \
+   # chown -R www-data:www-data /var/www /srv/app-data/
 
