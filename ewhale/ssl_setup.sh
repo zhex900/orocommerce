@@ -37,7 +37,7 @@ mkdir -p /var/www/letsencrypt/.well-known/acme-challenge
 sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/https.conf
 sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/http.conf
 
-certbot certonly -a webroot --webroot-path=/var/www/web --email=zhex900@gmail.com -d test.ewhale.co --agree-tos --non-interactive --text --rsa-key-size 4096
+certbot certonly -a webroot --webroot-path=/var/www/web --email=zhex900@gmail.com -d $HOST --agree-tos --non-interactive --text --rsa-key-size 4096
 
 mv /etc/nginx/sites-enabled/bap.conf /etc/nginx/sites-available/
 cp /etc/nginx/sites-available/https.conf /etc/nginx/sites-enabled/
