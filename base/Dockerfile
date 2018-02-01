@@ -5,7 +5,7 @@ RUN chmod +x /usr/local/bin/run.sh
 
 COPY conf/aws_s3.yml          /etc/aws_s3.yml
 COPY conf/nginx.conf          /etc/nginx/nginx.conf
-COPY conf/nginx-bap.conf      /etc/nginx/sites-enabled/bap.conf
+COPY conf/http.conf      /etc/nginx/sites-enabled/http.conf
 COPY ["conf/supervisord-1.x.conf", "conf/supervisord-2.x.conf", "/etc/"] 
 
 EXPOSE 443 80
