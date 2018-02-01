@@ -3,8 +3,8 @@ FROM zhex900/ewhale:base
 COPY run.sh /usr/local/bin/
 COPY ssl_setup.sh /usr/local/bin/
 
-COPY https.conf /etc/nginx/sites-enabled/https.conf
-COPY http.conf /etc/nginx/sites-enabled/http.conf
+COPY https.conf /etc/nginx/sites-available/https.conf
+COPY http.conf /etc/nginx/sites-available/http.conf
 
 RUN     apt-get update && \
         apt-get install -y python-pip python-certbot-nginx&& \
@@ -24,3 +24,17 @@ RUN     apt-get update && \
 
 # aws s3 cp s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
 # aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive
+#deb http://us.archive.ubuntu.com/ubuntu/ xenial main restricted
+#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial main restricted
+#deb http://us.archive.ubuntu.com/ubuntu/ xenial universe
+#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial universe
+#deb http://us.archive.ubuntu.com/ubuntu/ xenial-security main restricted
+#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-security main restricted
+#deb http://us.archive.ubuntu.com/ubuntu/ xenial-security universe
+#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-security universe
+#deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted
+#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates main restricted
+#deb http://us.archive.ubuntu.com/ubuntu/ xenial universe
+#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial universe
+#deb http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe
+#deb-src http://us.archive.ubuntu.com/ubuntu/ xenial-updates universe

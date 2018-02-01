@@ -34,9 +34,14 @@ add_header X-Content-Type-Options nosniff;' > /etc/nginx/snippets/ssl.conf
 mkdir -p /var/www/letsencrypt/.well-known/acme-challenge
 
 # insert host url
-sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-enabled/https.conf
+sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/https.conf
+sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/http.conf
 
-certbot certonly -a webroot --webroot-path=/var/www/web --email=zhex900@gmail.com -d $HOST --agree-tos --non-interactive --text --rsa-key-size 4096
+certbot certonly -a webroot --webroot-path=/var/www/web --email=zhex900@gmail.com -d test.ewhale.co --agree-tos --non-interactive --text --rsa-key-size 4096
+
+mv /etc/nginx/sites-enable/bap.conf /etc/nginx/sites-available/
+cp /etc/nginx/sites-available/https.conf /etc/nginx/sites-enabled/
+cp /etc/nginx/sites-available/http.conf /etc/nginx/sites-enabled/
 
 supervisorctl restart nginx
 

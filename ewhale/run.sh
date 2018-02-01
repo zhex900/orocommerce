@@ -76,8 +76,6 @@ fi
 #fi
 #
 
-ssl_setup.sh ${APP_HOSTNAME}
-
 if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
     sed -i '/parameters/a \
@@ -140,4 +138,5 @@ else
   exec /usr/local/bin/supervisord -n -c /etc/supervisord-1.x.conf
 fi
 
+ssl_setup.sh ${APP_HOSTNAME}
 
