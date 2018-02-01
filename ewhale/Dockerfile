@@ -1,10 +1,14 @@
 FROM zhex900/ewhale:base
 
 COPY run.sh /usr/local/bin/
-COPY nginx-bap.conf      /etc/nginx/sites-enabled/bap.conf
+COPY ssl_setup.sh /usr/local/bin/
+
+COPY https.conf /etc/nginx/sites-enabled/https.conf
+COPY http.conf /etc/nginx/sites-enabled/http.conf
 
 RUN     apt-get update && \
-        apt-get install -y python-pip && \
+        apt-get install -y python-pip python-certbot-nginx&& \
+        chmod +x /usr/local/bin/ssl_setup.sh && \
         pip install awscli --upgrade --user && \
         export PATH=~/.local/bin:$PATH && \
         cd /var/www/ && \

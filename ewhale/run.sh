@@ -75,6 +75,9 @@ fi
 #    composer require "aws/aws-sdk-php:3.*" -vvv
 #fi
 #
+
+ssl_setup.sh ${APP_HOSTNAME}
+
 if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
     sed -i '/parameters/a \
@@ -84,7 +87,7 @@ if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
 fi
 
-sed -i "s/websocket_backend_path\: .*$/websocket_backend_path\: ${APP_WEBSOCKET_FRONTEND_PATH}/" /var/www/app/config/parameters.yml
+sed -i "s/websocket_frontend_path\: .*$/websocket_frontend_path\: ${APP_WEBSOCKET_FRONTEND_PATH}/" /var/www/app/config/parameters.yml
 
 sed -i "s/\$host/${APP_HOSTNAME}/g" /etc/nginx/sites-enabled/bap.conf
 
