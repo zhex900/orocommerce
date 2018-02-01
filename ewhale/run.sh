@@ -128,6 +128,16 @@ chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
 # This is a workaroud.
 #fix_parameters.sh
 
+nginx &
+
+# Get SSL when there is none
+if [ ! -d /etc/letsencrypt/live ]
+then
+    ssl_setup.sh ${APP_HOSTNAME}
+fi
+
+killall nginx
+
 # Starting services
 if php -r 'foreach(json_decode(file_get_contents("'${APP_ROOT}'/composer.lock"))->{"packages"} as $p) { echo $p->{"name"} . ":" . $p->{"version"} . PHP_EOL; };' | grep 'platform:2' > /dev/null
 then
@@ -137,6 +147,3 @@ else
   info "Starting supervisord for platform 1.x" 
   exec /usr/local/bin/supervisord -n -c /etc/supervisord-1.x.conf
 fi
-
-ssl_setup.sh ${APP_HOSTNAME}
-
