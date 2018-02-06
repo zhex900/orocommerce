@@ -82,9 +82,9 @@ if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
     sed -i '/parameters/a \
     session_handler:    'snc_redis.session.handler' \
-    redis_dsn_cache:    'redis://${AWS_REGION}:6379/0' \
-    redis_dsn_session:  'redis://${AWS_REGION}:6379/1' \
-    redis_dsn_doctrine: 'redis://${AWS_REGION}:6379/2' \
+    redis_dsn_cache:    'redis://${REDIS_URL}:6379/0' \
+    redis_dsn_session:  'redis://${REDIS_URL}:6379/1' \
+    redis_dsn_doctrine: 'redis://${REDIS_URL}:6379/2' \
     aws_region: '${AWS_REGION}' \
     aws_key: '${AWS_KEY}'\
     aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
