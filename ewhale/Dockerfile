@@ -1,10 +1,10 @@
 FROM zhex900/ewhale:base
 
 COPY run.sh /usr/local/bin/
-COPY ssl_setup.sh /usr/local/bin/
-
-COPY https.conf /etc/nginx/sites-available/https.conf
-COPY http.conf /etc/nginx/sites-available/http.conf
+#COPY ssl_setup.sh /usr/local/bin/
+#
+#COPY https.conf /etc/nginx/sites-available/https.conf
+#COPY http.conf /etc/nginx/sites-available/http.conf
 
 RUN     apt-get update && \
         apt-get install -y python-pip python-certbot-nginx&& \

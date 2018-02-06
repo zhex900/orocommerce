@@ -78,7 +78,13 @@ fi
 
 if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
+    sed -i 's/\(^.*native_file.*$\)/#\1/' /var/www/app/config/parameters.yml
+
     sed -i '/parameters/a \
+    session_handler:    'snc_redis.session.handler' \
+    redis_dsn_cache:    'redis://${AWS_REGION}:6379/0' \
+    redis_dsn_session:  'redis://${AWS_REGION}:6379/1' \
+    redis_dsn_doctrine: 'redis://${AWS_REGION}:6379/2' \
     aws_region: '${AWS_REGION}' \
     aws_key: '${AWS_KEY}'\
     aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
@@ -107,8 +113,12 @@ export PATH=~/.local/bin:$PATH
 # get images from aws s3
 if [ ! -d /var/www/web/media/cache ]
 then
-    aws s3 cp s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
-    aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive
+    aws s3 copy s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
+    aws s3 copy s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive
+
+else
+    aws s3 sync s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment
+    aws s3 sync s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media
 fi
 
 php /var/www/app/console oro:platform:update --force
@@ -128,15 +138,15 @@ chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
 # This is a workaroud.
 #fix_parameters.sh
 
-nginx &
-
-# Get SSL when there is none
-if [ ! -d /etc/letsencrypt/live ]
-then
-    ssl_setup.sh ${APP_HOSTNAME}
-fi
-
-killall nginx
+#nginx &
+#
+## Get SSL when there is none
+#if [ ! -d /etc/letsencrypt/live ]
+#then
+#    ssl_setup.sh ${APP_HOSTNAME}
+#fi
+#
+#killall nginx
 
 # Starting services
 if php -r 'foreach(json_decode(file_get_contents("'${APP_ROOT}'/composer.lock"))->{"packages"} as $p) { echo $p->{"name"} . ":" . $p->{"version"} . PHP_EOL; };' | grep 'platform:2' > /dev/null
