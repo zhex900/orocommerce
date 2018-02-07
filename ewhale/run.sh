@@ -89,6 +89,12 @@ if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
     aws_key: '${AWS_KEY}'\
     aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
 
+    sed -i '/\[opcache\]/a \
+opcache.memory_consumption=512 \
+opcache.validate_timestamps=0 \
+opcache.interned_strings_buffer=16 \
+opcache.max_accelerated_files=30000' /etc/php/7.0/fpm/php.ini
+
 fi
 
 sed -i "s/websocket_frontend_path\: .*$/websocket_frontend_path\: ${APP_WEBSOCKET_FRONTEND_PATH}/" /var/www/app/config/parameters.yml
