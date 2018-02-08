@@ -127,6 +127,7 @@ else
     aws s3 sync s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media
 fi
 
+echo '' > /var/www/src/MENA/Bundle/MENALoadDataBundle/Migrations/Data/ORM/data/products.csv
 php /var/www/app/console oro:platform:update --force
 
 ##clear cache.
