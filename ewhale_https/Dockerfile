@@ -8,6 +8,7 @@ COPY http.conf /etc/nginx/sites-available/http.conf
 
 RUN     apt-get update && \
         apt-get install -y python-pip python-certbot-nginx&& \
+        chmod +x /usr/local/bin/ssl_setup.sh && \
         pip install awscli --upgrade --user && \
         export PATH=~/.local/bin:$PATH && \
         cd /var/www/ && \
