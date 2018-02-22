@@ -13,11 +13,11 @@ apt-get -qy update
 apt-get -qqy upgrade
 
 # Install tools
-apt-get install -qqy software-properties-common python-software-properties python-setuptools
+apt-get install -qqy software-properties-common python-software-properties python-setuptools || exit 1
 
 # Install base packages
 apt-get install -qqy python-pip apt-transport-https ca-certificates vim make git-core wget curl procps \
-mcrypt mysql-client zip unzip redis-tools netcat-openbsd
+mcrypt mysql-client zip unzip redis-tools netcat-openbsd || exit 1
 
 # Install php
 apt-get install -qqy --no-install-recommends php-fpm php-cli php-common php-dev \
