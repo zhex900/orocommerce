@@ -1,0 +1,37 @@
+services:
+    oro_attachment.aws_s3.client:
+         class: Aws\S3\S3Client
+         factory: [Aws\S3\S3Client, 'factory']
+         arguments:
+            -
+                version: latest
+                region: "%aws_region%"
+                credentials:
+                   key: "%aws_key%"
+                   secret: "%aws_secret%"
+
+knp_gaufrette:
+    adapters:
+        attachments:
+            aws_s3:
+                service_id: 'oro_attachment.aws_s3.client'
+                bucket_name: 'ewhale-shop-prod-attachment-cache'
+                detect_content_type: true
+                options:
+                        create: true
+                        directory: 'attachment'
+        mediacache:
+            aws_s3:
+                service_id: 'oro_attachment.aws_s3.client'
+                bucket_name: 'ewhale-shop-prod-attachment-cache'
+                options:
+                        create: true
+                        directory: 'mediacache'
+
+    filesystems:
+        attachments:
+            adapter:    attachments
+            alias:      attachments_filesystem
+        mediacache:
+            adapter:    mediacache
+            alias:      mediacache_filesystem
