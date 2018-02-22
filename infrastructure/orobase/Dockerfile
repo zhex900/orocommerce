@@ -3,7 +3,7 @@ FROM ubuntu:xenial
 COPY ["setup.sh", "configure.sh", "/opt/bin/"]
 COPY ["sources.list", "/etc/apt/sources.list"]
 
-RUN apt-get udpate && apt-get install -y language-pack-en
+RUN apt-get update && apt-get install -y language-pack-en
 RUN /bin/bash /opt/bin/setup.sh
 RUN /bin/bash /opt/bin/configure.sh
 
