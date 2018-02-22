@@ -27,6 +27,11 @@ php-xsl php-intl php-soap php-mbstring php-zip php-bz2 php-redis php-tidy || exi
 # Install nginx
 apt-get install -qqy --reinstall nginx || exit 1
 
+# Install cerbot
+add-apt-repository -y ppa:certbot/certbot
+apt-get -qy update
+apt-get install -qqy python-certbot-nginx
+
 # Install composer
 (curl -sS https://getcomposer.org/installer | php) || exit 1
 mv composer.phar /usr/local/bin/composer.phar
