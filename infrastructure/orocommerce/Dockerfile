@@ -17,6 +17,8 @@ ARG GIT_URI="https://github.com/orocommerce/orocommerce-application.git"
 # branch name or tag 
 ARG GIT_REF="1.5"
 
+#COPY bin/install-application.sh          /usr/local/bin/install-application.sh
+
 RUN install-application.sh
 
 CMD ["run.sh"]
