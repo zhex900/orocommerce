@@ -17,7 +17,12 @@ apt-get install -qqy software-properties-common python-software-properties pytho
 
 # Install base packages
 apt-get install -qqy apt-transport-https ca-certificates vim make git-core wget curl procps \
-mcrypt mysql-client zip unzip redis-tools netcat-openbsd python-pip python-certbot-nginx
+mcrypt mysql-client zip unzip redis-tools netcat-openbsd python-pip
+
+# Install cerbot
+add-apt-repository -y ppa:certbot/certbot
+apt-get -qy update
+apt-get install -qqy python-certbot-nginx
 
 # Install aws cli
 pip install awscli --upgrade --user
