@@ -19,6 +19,9 @@ apt-get install -qqy software-properties-common python-software-properties pytho
 apt-get install -qqy python-pip apt-transport-https ca-certificates vim make git-core wget curl procps \
 mcrypt mysql-client zip unzip redis-tools netcat-openbsd || exit 1
 
+# Install aws cli
+pip install awscli --upgrade --user
+
 # Install php
 apt-get install -qqy --no-install-recommends php-fpm php-cli php-common php-dev \
 php-mysql php-curl php-gd php-mcrypt php-xmlrpc php-ldap \
