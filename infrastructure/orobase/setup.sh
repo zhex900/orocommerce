@@ -16,8 +16,8 @@ apt-get -qqy upgrade
 apt-get install -qqy software-properties-common python-software-properties python-setuptools
 
 # Install base packages
-apt-get install -qqy apt-transport-https ca-certificates vim make git-core wget curl procps \
-mcrypt mysql-client zip unzip redis-tools netcat-openbsd python-pip
+apt-get install -qqy python-pip apt-transport-https ca-certificates vim make git-core wget curl procps \
+mcrypt mysql-client zip unzip redis-tools netcat-openbsd
 
 # Install cerbot
 add-apt-repository -y ppa:certbot/certbot
