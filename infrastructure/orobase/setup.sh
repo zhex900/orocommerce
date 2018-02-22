@@ -25,7 +25,7 @@ apt-get -qy update
 apt-get install -qqy python-certbot-nginx
 
 # Install aws cli
-pip install awscli --upgrade --user
+/usr/bin/pip install awscli --upgrade --user
 
 # Install php
 apt-get install -qqy --no-install-recommends php-fpm php-cli php-common php-dev \
