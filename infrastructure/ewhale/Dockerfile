@@ -1,4 +1,4 @@
-FROM zhex900/ewhale:base
+FROM zhex900/orocommerce
 
 COPY run.sh /usr/local/bin/
 COPY ssl_setup.sh /usr/local/bin/
