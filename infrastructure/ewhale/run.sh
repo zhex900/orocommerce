@@ -157,4 +157,7 @@ if [ ${IS_STAND_ALONE} = true ]; then
       info "Starting supervisord for platform 1.x"
       exec /usr/local/bin/supervisord -n -c /etc/supervisord-1.x.conf
     fi
+
+else
+    while : ; do sleep 2; done
 fi
