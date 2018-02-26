@@ -34,16 +34,16 @@ add_header X-Content-Type-Options nosniff;' > /etc/nginx/snippets/ssl.conf
 mkdir -p /var/www/letsencrypt/.well-known/acme-challenge
 
 # insert host url
-sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/https.conf
-sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/http.conf
-
+sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/ssl_https.conf
+sed -i s/HOST_URL/$HOST/g /etc/nginx/sites-available/ssl_https.conf
+nginx &
 certbot certonly -a webroot --webroot-path=/var/www/web --email=zhex900@gmail.com -d $HOST --agree-tos --non-interactive --text --rsa-key-size 4096
 
 mv /etc/nginx/sites-enabled/http.conf /etc/nginx/sites-available/
 cp /etc/nginx/sites-available/ssl_https.conf /etc/nginx/sites-enabled/
 cp /etc/nginx/sites-available/ssl_http.conf /etc/nginx/sites-enabled/
 
-supervisorctl restart nginx
+killall nginx
 
 # Automatic renewal using Cron
 (crontab -l 2>/dev/null; echo "20 3 * * * certbot renew --noninteractive --renew-hook  /usr/local/bin/supervisorctl restart nginx") | crontab -
