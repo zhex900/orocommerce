@@ -122,11 +122,11 @@ export PATH=~/.local/bin:$PATH
 if [ ! -d /var/www/web/media/cache ]
 then
     aws s3 cp s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
-    aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive
+    aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache/attachment /var/www/web/media/cache/attachment --recursive
 
 else
     aws s3 sync s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment
-    aws s3 sync s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media/cache
+    aws s3 sync s3://ewhale-shop-prod-attachment-cache/mediacache/attachment /var/www/web/media/cache/attachment
 fi
 
 echo '' > /var/www/src/MENA/Bundle/MENALoadDataBundle/Migrations/Data/ORM/data/products.csv
@@ -138,6 +138,11 @@ rm -rf ${APP_ROOT}/app/cache/*
 php ${APP_ROOT}/app/console cache:clear --env=prod -vvv
 info "Fix ownership for /var/www/ /srv/app-data/"
 chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
+
+# install cron job run every 6 hours
+crontab -r
+(crontab -l && echo "0 */6 * * * /usr/local/bin/aws_image_sync.sh") | crontab -
+cron &
 
 ##clear entity config
 #php ${APP_ROOT}/app/console oro:entity-extend:update-config
