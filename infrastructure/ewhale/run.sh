@@ -96,7 +96,7 @@ sed -i "s/websocket_frontend_path\: .*$/websocket_frontend_path\: ${APP_WEBSOCKE
 sed -i "s/\$host/${APP_HOSTNAME}/g" /etc/nginx/sites-enabled/http.conf
 
 # switch to https mode
-if [[ -z ${HTTPS_MODE} ]]; then
+if [ ${HTTPS_MODE} = true ]; then
     if [ ! -d /etc/letsencrypt/live ]
     then
         ssl_setup.sh ${APP_HOSTNAME}
@@ -121,8 +121,8 @@ export PATH=~/.local/bin:$PATH
 # get images from aws s3
 if [ ! -d /var/www/web/media/cache ]
 then
-    aws s3 copy s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
-    aws s3 copy s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive
+    aws s3 cp s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
+    aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache /var/www/web/media --recursive
 
 else
     aws s3 sync s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment
@@ -142,7 +142,7 @@ chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
 ##clear entity config
 #php ${APP_ROOT}/app/console oro:entity-extend:update-config
 
-if [[ -z ${IS_STAND_ALONE} ]]; then
+if [ ${IS_STAND_ALONE} = true ]; then
     # Starting services
     if php -r 'foreach(json_decode(file_get_contents("'${APP_ROOT}'/composer.lock"))->{"packages"} as $p) { echo $p->{"name"} . ":" . $p->{"version"} . PHP_EOL; };' | grep 'platform:2' > /dev/null
     then
