@@ -116,11 +116,6 @@ php ${APP_ROOT}/app/console cache:clear --env=prod -vvv
 info "Fix ownership for /var/www/ /srv/app-data/"
 chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
 
-# install cron job run every 6 hours
-crontab -r
-(crontab -l && echo "0 */6 * * * /usr/local/bin/aws_image_sync.sh") | crontab -
-cron &
-
 ##clear entity config
 #php ${APP_ROOT}/app/console oro:entity-extend:update-config
 
