@@ -20,5 +20,7 @@ ARG GIT_REF="1.5"
 
 RUN install-application.sh
 
+ENTRYPOINT []
+
 CMD ["run.sh"]
 
