@@ -106,9 +106,7 @@ region = ${AWS_REGION}
 DELIM
 fi
 
-echo '' > /var/www/src/MENA/Bundle/MENALoadDataBundle/Migrations/Data/ORM/data/products.csv
-
-php /var/www/app/console oro:platform:update --force
+#php /var/www/app/console oro:platform:update --force
 
 ##clear cache.
 info "Rebuild cache"
