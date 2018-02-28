@@ -12,7 +12,7 @@ EXPOSE 443 80
 # HTTPS or SSH
 # If you want to use ssh don't forget to provide ssh key via build arg directive
 ARG GIT_URI="https://github.com/orocommerce/orocommerce-application.git"
-s
+
 # branch name or tag 
 ARG GIT_REF="1.5"
 
