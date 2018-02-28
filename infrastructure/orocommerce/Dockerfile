@@ -23,6 +23,9 @@ RUN install-application.sh
 RUN sed -i '/worker_processes/a \
     daemon off;' nginx.conf
 
+COPY conf/php-fpm/php.ini /etc/php/7.0/fpm/php.ini
+COPY conf/php-fpm/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+
 ENTRYPOINT []
 
 CMD ["run.sh"]
