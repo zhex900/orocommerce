@@ -1,4 +1,4 @@
-FROM zhex900/nginx_pagespeed
+FROM zhex900/nginx-pagespeed
 
 COPY ["setup.sh", "configure.sh", "/opt/bin/"]
 
