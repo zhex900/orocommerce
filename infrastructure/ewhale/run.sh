@@ -65,6 +65,8 @@ then
     mkdir -p ${APP_ROOT}/app/import_export
 fi
 
+sed -i s/"#- { resource: aws_s3.yml }/- { resource: aws_s3.yml }"/g /var/www/app/config/config.yml
+
 if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
 
     sed -i 's/\(^.*native_file.*$\)/#\1/' /var/www/app/config/parameters.yml
