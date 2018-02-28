@@ -31,12 +31,7 @@ sed -i -e "s/listen\s=\s\/run\/php\/php7.0-fpm.sock/listen = \/var\/run\/php-fpm
 # Fix old style for comments
 find /etc/php/7.0/cli/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
-# Configure nginx
-sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf || exit 1
-sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size ${UPLOAD_LIMIT}m/" /etc/nginx/nginx.conf || exit 1
-echo "daemon off;" >> /etc/nginx/nginx.conf
 # Remove defaults
-rm /etc/nginx/conf.d/default.conf
 rm -rf /var/www
 
 # Create data folder
