@@ -126,7 +126,7 @@ then
 
 else
     aws s3 sync s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment
-    aws s3 sync s3://ewhale-shop-prod-attachment-cache/mediacache/attachment /var/www/web/media/cache/attachment
+    aws s3 sync s3://ewhale-shop-prod-attachment-cache/mediacache/cache/attachment /var/www/web/media/cache/attachment
 fi
 
 echo '' > /var/www/src/MENA/Bundle/MENALoadDataBundle/Migrations/Data/ORM/data/products.csv
@@ -146,6 +146,8 @@ cron &
 
 ##clear entity config
 #php ${APP_ROOT}/app/console oro:entity-extend:update-config
+# initialize nginx pagespeed
+/usr/local/bin/initialize.sh
 
 if [ ${IS_STAND_ALONE} = true ]; then
     # Starting services
