@@ -60,11 +60,6 @@ else
 
 fi
 
-if [[ ! -z ${CMD_INIT_AFTER} ]]; then
-    info "Running post init command: ${CMD_INIT_AFTER}"
-    sh -c "${CMD_INIT_AFTER}"
-fi
-
 if [ ! -d ${APP_ROOT}/app/import_export ]
 then
     mkdir -p ${APP_ROOT}/app/import_export
@@ -82,26 +77,19 @@ if ! grep -q 'aws_key' /var/www/app/config/parameters.yml; then
     aws_region: '${AWS_REGION}' \
     aws_key: '${AWS_KEY}'\
     aws_secret: '${AWS_SECRET} /var/www/app/config/parameters.yml
-
-    sed -i '/\[opcache\]/a \
-opcache.memory_consumption=512 \
-opcache.validate_timestamps=0 \
-opcache.interned_strings_buffer=16 \
-opcache.max_accelerated_files=30000' /etc/php/7.0/fpm/php.ini
-
 fi
 
 sed -i "s/websocket_frontend_path\: .*$/websocket_frontend_path\: ${APP_WEBSOCKET_FRONTEND_PATH}/" /var/www/app/config/parameters.yml
 
 sed -i "s/\$host/${APP_HOSTNAME}/g" /etc/nginx/sites-enabled/http.conf
 
-# switch to https mode
-if [ ${HTTPS_MODE} = true ]; then
-    if [ ! -d /etc/letsencrypt/live ]
-    then
-        ssl_setup.sh ${APP_HOSTNAME}
-    fi
-fi
+## switch to https mode
+#if [ ${HTTPS_MODE} = true ]; then
+#    if [ ! -d /etc/letsencrypt/live ]
+#    then
+#        ssl_setup.sh ${APP_HOSTNAME}
+#    fi
+#fi
 
 if [ ! -d /root/.aws ]
 then
@@ -117,25 +105,16 @@ output = json
 region = ${AWS_REGION}
 DELIM
 fi
-export PATH=~/.local/bin:$PATH
-# get images from aws s3
-if [ ! -d /var/www/web/media/cache ]
-then
-    aws s3 cp s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment --recursive
-    aws s3 cp s3://ewhale-shop-prod-attachment-cache/mediacache/attachment /var/www/web/media/cache/attachment --recursive
-
-else
-    aws s3 sync s3://ewhale-shop-prod-attachment-cache/attachment /var/www/app/attachment
-    aws s3 sync s3://ewhale-shop-prod-attachment-cache/mediacache/cache/attachment /var/www/web/media/cache/attachment
-fi
 
 echo '' > /var/www/src/MENA/Bundle/MENALoadDataBundle/Migrations/Data/ORM/data/products.csv
+
 php /var/www/app/console oro:platform:update --force
 
 ##clear cache.
 info "Rebuild cache"
 rm -rf ${APP_ROOT}/app/cache/*
 php ${APP_ROOT}/app/console cache:clear --env=prod -vvv
+
 info "Fix ownership for /var/www/ /srv/app-data/"
 chown -R www-data:www-data ${APP_ROOT} /srv/app-data/
 
@@ -146,20 +125,23 @@ cron &
 
 ##clear entity config
 #php ${APP_ROOT}/app/console oro:entity-extend:update-config
+
 # initialize nginx pagespeed
 /usr/local/bin/initialize.sh
 
-if [ ${IS_STAND_ALONE} = true ]; then
-    # Starting services
-    if php -r 'foreach(json_decode(file_get_contents("'${APP_ROOT}'/composer.lock"))->{"packages"} as $p) { echo $p->{"name"} . ":" . $p->{"version"} . PHP_EOL; };' | grep 'platform:2' > /dev/null
-    then
-      info "Starting supervisord for platform 2.x"
-      exec /usr/local/bin/supervisord -n -c /etc/supervisord-2.x.conf
-    else
-      info "Starting supervisord for platform 1.x"
-      exec /usr/local/bin/supervisord -n -c /etc/supervisord-1.x.conf
-    fi
+# Starting services
+info "Starting supervisord"
+
+# web services only
+if [ ${WEB_SERVICES_ONLY} = true ];
+then
+   exec /usr/local/bin/supervisord -n -c /etc/supervisord-web-services.conf
 
 else
-    while : ; do sleep 2; done
+   exec /usr/local/bin/supervisord -n -c /etc/supervisord-2.x.conf
 fi
+
+
+
+
+

@@ -5,6 +5,7 @@ COPY ssl_setup.sh /usr/local/bin/
 COPY aws_image_sync.sh /usr/local/bin/
 COPY https.conf /etc/nginx/sites-available/ssl_https.conf
 COPY http.conf /etc/nginx/sites-available/ssl_http.conf
+COPY supervisord-web-services.conf /etc/supervisord-web-services.conf
 
 RUN     chmod +x /usr/local/bin/ssl_setup.sh && \
         chmod +x /usr/local/bin/aws_image_sync.sh && \
