@@ -1,4 +1,4 @@
-FROM zhex900/orobase
+FROM zhex900/orobase_nginx_pagespeed
 
 COPY bin/run.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/run.sh
