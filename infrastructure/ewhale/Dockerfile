@@ -10,8 +10,6 @@ COPY supervisord-web-services.conf /etc/supervisord-web-services.conf
 RUN     chmod +x /usr/local/bin/ssl_setup.sh && \
         chmod +x /usr/local/bin/aws_image_sync.sh && \
         rm -rf /var/www/src && \
+        sed -i s/"#- { resource: aws_s3.yml }/- { resource: aws_s3.yml }"/g /var/www/app/config/config.yml && \
         git clone https://github.com/zhex900/ewhale.git -b master --single-branch /var/www/src && \
-        rm -rf /var/www/src/MENA/Bundle/MENALoadDataBundle && \
-        chown -R www-data:www-data /var/www/ /srv/app-data/ && \
-        php /var/www/app/console cache:clear --env=prod -vvv && \
-        php /var/www/app/console oro:platform:update --force
+        rm -rf /var/www/src/MENA/Bundle/MENALoadDataBundle
