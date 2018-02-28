@@ -20,6 +20,9 @@ ARG GIT_REF="1.5"
 
 RUN install-application.sh
 
+RUN sed -i '/worker_processes/a \
+    daemon off;' nginx.conf
+
 ENTRYPOINT []
 
 CMD ["run.sh"]
